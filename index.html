@@ -43,6 +43,13 @@
   }
   .tagline { color: var(--muted); letter-spacing: 0.3em; font-size: clamp(0.7rem, 2.5vw, 0.9rem); margin-top: 0.4rem; text-transform: uppercase; }
 
+  .wallet {
+    display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1.2rem; padding: 0.45rem 1.1rem;
+    border: 1px solid rgba(140, 200, 255, 0.4); border-radius: 999px; background: rgba(10, 14, 39, 0.7);
+    color: #cfe8ff; font-weight: 700; font-size: clamp(0.95rem, 3.5vw, 1.15rem); letter-spacing: 0.08em;
+    box-shadow: 0 0 20px rgba(120, 180, 255, 0.2);
+  }
+  .star-ic { width: 1.2em; height: 1.2em; filter: drop-shadow(0 0 3px #8cc8ff) drop-shadow(0 0 7px rgba(120, 180, 255, 0.6)); }
   .grid {
     max-width: 960px; margin: 0 auto; display: grid; gap: 1.25rem;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
@@ -86,6 +93,10 @@
   <header>
     <h1>NEON ARCADE</h1>
     <p class="tagline">Games by Ha Q. Vu</p>
+    <div class="wallet" title="Stars are shared by all games">
+      <svg class="star-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0L13.2 10.8L24 12L13.2 13.2L12 24L10.8 13.2L0 12L10.8 10.8Z" fill="#cfe8ff"/><circle cx="12" cy="12" r="3.2" fill="#fff"/></svg>
+      <span id="walletStars">0</span> stars
+    </div>
   </header>
 
   <main class="grid">
@@ -181,6 +192,16 @@
   </footer>
 
 <script>
+  // Stars are saved by the games on this same site, so the homepage can show them
+  try {
+    const s = parseInt(localStorage.getItem('levelPlusStars') || '0', 10) || 0;
+    document.getElementById('walletStars').textContent = s;
+  } catch (e) {}
+  // Refresh when coming back to this tab from a game
+  window.addEventListener('pageshow', () => {
+    try { document.getElementById('walletStars').textContent = parseInt(localStorage.getItem('levelPlusStars') || '0', 10) || 0; } catch (e) {}
+  });
+
   // Show the current world #1 score of LEVEL+ on its card
   (async () => {
     try {
