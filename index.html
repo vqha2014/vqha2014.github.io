@@ -177,10 +177,52 @@
       </div>
     </a>
 
+    <a class="card" href="https://vqha2014.github.io/ABYSS-plus/">
+      <div class="thumb" aria-hidden="true">
+        <svg viewBox="0 0 320 180">
+          <defs>
+            <radialGradient id="orb3" cx="40%" cy="40%" r="60%">
+              <stop offset="0" stop-color="#fff"/><stop offset="0.35" stop-color="#7df9ff"/><stop offset="1" stop-color="#00a8c8"/>
+            </radialGradient>
+            <radialGradient id="face3" cx="40%" cy="35%" r="70%">
+              <stop offset="0" stop-color="#26262f"/><stop offset="1" stop-color="#000"/>
+            </radialGradient>
+            <filter id="glow3"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <rect width="320" height="180" fill="#090414"/>
+          <g stroke="rgba(176,38,255,0.12)"><path d="M0 40H320M0 100H320M0 160H320M60 0V180M140 0V180M220 0V180M300 0V180"/></g>
+          <g filter="url(#glow3)" stroke="#ff1a3c" stroke-width="2.5" stroke-linejoin="round">
+            <path d="M236 52Q268 46 262 18Q258 42 248 58Z" fill="#1a0610"/>
+            <path d="M204 52Q172 46 178 18Q182 42 192 58Z" fill="#1a0610"/>
+            <path d="M220 44C248 43 254 70 246 86C240 100 230 106 220 106C210 106 200 100 194 86C186 70 192 43 220 44Z" fill="url(#face3)"/>
+          </g>
+          <path d="M206 72L216 77L214 70ZM234 72L224 77L226 70Z" fill="#ff3b1a" filter="url(#glow3)"/>
+          <path d="M207 90Q220 98 233 90Q220 104 207 90Z" fill="#12000a" stroke="#ff1a3c" stroke-width="1.5"/>
+          <g fill="rgba(255,59,92,0.5)" stroke="#ff3b5c" stroke-width="1.5" filter="url(#glow3)">
+            <path d="M120 60l4 7 8-1-5 6 4 7-8-2-5 6-1-8-8-3 7-4z"/>
+            <path d="M150 140l4 7 8-1-5 6 4 7-8-2-5 6-1-8-8-3 7-4z"/>
+            <path d="M268 130l4 7 8-1-5 6 4 7-8-2-5 6-1-8-8-3 7-4z"/>
+          </g>
+          <circle cx="78" cy="108" r="24" fill="rgba(0,240,255,0.15)"/>
+          <circle cx="78" cy="108" r="12" fill="url(#orb3)" filter="url(#glow3)"/>
+          <circle cx="78" cy="108" r="19" fill="none" stroke="#ffd54a" stroke-width="2" stroke-dasharray="70 30" filter="url(#glow3)"/>
+          <path d="M92 104L118 70M94 110L146 142" stroke="#ffd54a" stroke-width="2.5" filter="url(#glow3)"/>
+          <g fill="#7df9ff"><path d="M40 60l3 5-3 5-3-5z"/><path d="M58 150l3 5-3 5-3-5z"/><path d="M170 30l3 5-3 5-3-5z"/></g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="title">ABYSS+ <span>Neon Orb</span></div>
+        <p class="desc">Survive the Demon Legion. Pick Hunter, Warrior or Druid, level up your skills, play co-op with friends.</p>
+        <div class="tags"><span class="tag">3 CLASSES</span><span class="tag">CO-OP</span><span class="tag">WORLD LEADERBOARD</span><span class="tag">NEW</span></div>
+        <div class="top" id="abyssTop"></div>
+        <span class="play">PLAY</span>
+      </div>
+    </a>
+
     <div class="card soon">
       <div class="thumb">?</div>
       <div class="body">
-        <div class="title">Game #3</div>
+        <div class="title">Game #4</div>
         <p class="desc">Coming soon…</p>
       </div>
     </div>
@@ -201,6 +243,21 @@
   window.addEventListener('pageshow', () => {
     try { document.getElementById('walletStars').textContent = parseInt(localStorage.getItem('levelPlusStars') || '0', 10) || 0; } catch (e) {}
   });
+
+  // ABYSS+ world #1 (longest survival)
+  (async () => {
+    try {
+      const r = await fetch('https://level-plus-b1948-default-rtdb.asia-southeast1.firebasedatabase.app/abyss.json?orderBy=%22s%22&limitToLast=1');
+      if (!r.ok) return;
+      const best = Object.values((await r.json()) || {}).find(e => e && typeof e.n === 'string' && typeof e.s === 'number');
+      if (!best) return;
+      const el = document.getElementById('abyssTop');
+      el.textContent = 'World #1: ' + best.n.slice(0, 12) + ' — ';
+      const b = document.createElement('b');
+      b.textContent = Math.floor(best.s / 60) + ':' + String(Math.floor(best.s % 60)).padStart(2, '0');
+      el.appendChild(b);
+    } catch (e) {}
+  })();
 
   // Show the current world #1 score of LEVEL+ on its card
   (async () => {
